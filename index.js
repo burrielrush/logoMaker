@@ -1,8 +1,8 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
-const shape = require('./lib/shapes');
-const generateLogo = require("./generateLogo");
-
+const SVG = require('./svg');
+const { Square, Triangle, Circle } = require('./lib/shapes.js');
+const shape = require('./lib/shapes.js');
 
 
 
@@ -34,27 +34,40 @@ const questions = [
     }
 ];
 
-console.log(questions);
+function generateLogo(data) {
+    //const svg = SVG().size(200,200);
+    
+    if (data.shapes.includes('Triangle')) {
+        shape = new Triangle(data.textColor, data.characters, data.color);
+    } else if (data.shapes.includes('Square')) {
+        shape = new Square(data.textColor, data.characters, data.color);
+    } else if (data.shapes.includes('Circle')) {
+        shape = new Circle(data.textColor, data.characters, data.color);
+    }
+    shape.generate(svg); 
+}
+
 
 function writeToFile(fileName, data) {
-    var content = generateLogo(data);
-    
+    const content = generateLogo(data);
+
     fs.writeFile(fileName, content, function(error) {
       if (error) {
         return console.log(error);
       }
-      console.log("The file was saved!");
+      console.log("Logo generated and saved successfully as " + fileName);
     });
-  }
-  
-function inti() {
+}
+
+
+function init() {
     inquirer.prompt(questions).then(function (data) {
         var fileName = 'logo.svg';
         writeToFile(fileName, data);
-});
+    });
 }
 
-inti();
+init();
 
 
-
+    
