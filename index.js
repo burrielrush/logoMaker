@@ -35,17 +35,22 @@ const questions = [
 ];
 
 function generateLogo(data) {
-    //const svg = SVG().size(200,200);
-    
+    const svg = new SVG();
+  
+    let shape;
+  
     if (data.shapes.includes('Triangle')) {
-        shape = new Triangle(data.textColor, data.characters, data.color);
+      shape = new Triangle(data.textColor, data.characters, data.color);
     } else if (data.shapes.includes('Square')) {
-        shape = new Square(data.textColor, data.characters, data.color);
+      shape = new Square(data.textColor, data.characters, data.color);
     } else if (data.shapes.includes('Circle')) {
-        shape = new Circle(data.textColor, data.characters, data.color);
-    }
-    shape.generate(svg); 
-}
+      shape = new Circle(data.textColor, data.characters, data.color);
+    } 
+ 
+
+    return svg.toString();
+  }
+  
 
 
 function writeToFile(fileName, data) {
